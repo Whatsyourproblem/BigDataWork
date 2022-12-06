@@ -33,7 +33,7 @@
           <div class="d-flex aside-width">
             <div class="react-left ml-4 react-l-s">
               <span class="react-before"></span>
-              <span class="text">全国各省市空气质量散点图</span>
+              <span class="text">全国各省市空气质量可视化分析</span>
             </div>
           </div>
           <div class="d-flex aside-width">
@@ -42,10 +42,10 @@
             </div>
             <div class="react-right mr-4 react-l-s">
               <span class="react-after"></span>
-              <span class="text">
+              <span  class="text" >
                 {{ timeInfo.dateYear }} {{ timeInfo.dateWeek }}
                 {{ timeInfo.dateDay }}
-                  <!-- 这里可以写组员 -->
+                   <!-- 这里可以写组员 -->
               </span>
             </div>
           </div>
