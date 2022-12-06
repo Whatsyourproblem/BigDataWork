@@ -1,12 +1,12 @@
 <template>
   <div class="center">
     <!-- 这里画地图 -->
-    <div class="d-flex pt-2 pl-2">
-                <span style="font-size: 20px">
+<!--    <div class="d-flex pt-2 pl-2">
+                <span style="font-size: 15px">
                     <i class="iconfont icon-tongji2"/>
                     空气质量分析柱状体
                 </span>
-    </div>
+    </div>-->
     <div style="height: 410px;">
       <div id="line" style="height: 100%"></div>
     </div>
@@ -34,6 +34,14 @@ export default {
                 data: [23, 24, 18, 25, 27, 28, 25]
             }
         ]*/
+       /* title:{
+          left:20,
+          top:10,
+          textStyle: {
+            color: 'rgba(255, 255, 255, 1)'
+          },
+          text: '全国AQI与温度，气压，温度的关系'
+        },*/
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -44,16 +52,19 @@ export default {
           }
         },
         toolbox: {
+          top:8,
+          right:5,
           feature: {
             //dataView: { show: true, readOnly: false },
             magicType: {show: true, type: ['line', 'bar']},
             restore: {show: true},
-            saveAsImage: {show: true}
+            saveAsImage: {show: true},
           }
         },
         legend: {
           data: ['平均温度', '地面气压', '平均湿度', 'AQI'],
           itemGap: 6,
+          top:20,
           left: 50,
           textStyle: {
             color: "rgba(255, 255, 255, 1)"
@@ -149,7 +160,10 @@ export default {
             },
             data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2]
           }
-        ]
+        ],
+        grid:{
+          top:90
+        }
 
       }
       myChart.setOption(option);
