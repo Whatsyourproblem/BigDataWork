@@ -13,7 +13,7 @@
 <!--
               <span class="title-text">{{ title }}</span>
 -->
-              <span class="title-text">空气污染质量分析</span>
+              <span class="title-text">大气污染可视化</span>
               <dv-decoration-6
                 class="dv-dec-6"
                 :reverse="true"
@@ -33,19 +33,19 @@
           <div class="d-flex aside-width">
             <div class="react-left ml-4 react-l-s">
               <span class="react-before"></span>
-              <span class="text">各省地市空气质量散点图</span>
+              <span class="text">全国各省市空气质量可视化分析</span>
             </div>
           </div>
           <div class="d-flex aside-width">
             <div class="react-right bg-color-blue mr-3">
-              <span class="text fw-b">测试小组</span>
+              <span class="text fw-b">梁鑫 许文杰 吴家俊  赵睿睿</span>
             </div>
             <div class="react-right mr-4 react-l-s">
               <span class="react-after"></span>
-              <span class="text">
+              <span  class="text" >
                 {{ timeInfo.dateYear }} {{ timeInfo.dateWeek }}
                 {{ timeInfo.dateDay }}
-                  <!-- 这里可以写组员 -->
+                   <!-- 这里可以写组员 -->
               </span>
             </div>
           </div>
