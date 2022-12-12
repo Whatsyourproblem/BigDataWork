@@ -15,7 +15,7 @@
             <span style="font-size: 20px">
                     <i class="iconfont icon-fenxi7" />
                     空气质量分析表格
-                </span>
+            </span>
             <dv-scroll-board :config="config" style="width:100%;height:290px" />
         </div>
     </div>

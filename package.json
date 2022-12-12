@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@jiaminghi/data-view": "^2.10.0",
+    "axios": "^1.2.1",
     "core-js": "^3.6.5",
     "echarts": "^5.3",
     "vue": "^3.0.0",
