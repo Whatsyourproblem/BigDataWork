@@ -1,87 +1,149 @@
 <template>
     <div class="centreRight1">
+
         <div class="bg-color-black">
-            <div class="d-flex pt-2 pl-2">
-                <span>
-                    <i class="iconfont icon-tongji4" />
-                    空气质量分析饼图
-                </span>
-            </div>
             <!-- 总共高为820 -->
-            <!-- 这里画地图 -->
-            <div style="height: 500px;">
-                <div id="pie" style="height: 100%"></div>
+            <div style="height: 820px">
+              <div id="container" style="height: 100%"></div>
             </div>
-            <span style="font-size: 20px">
-                    <i class="iconfont icon-fenxi7" />
-                    空气质量分析表格
-            </span>
-            <dv-scroll-board :config="config" style="width:100%;height:290px" />
         </div>
     </div>
 </template>
 
 <script>
+
     import { onMounted, ref } from 'vue'
     import * as echarts from 'echarts'
+    import {getSixAverage} from "@/api";
     export default {
         name: "Right1",
+        components: {},
         setup() {
-            const headerHeight = 50;
-            const headerBGC = ''
-            const header = [
-                '列1', '列2', '列3'
-            ]
-            const data = [
-                ['行1列1', '行1列2', '行1列3'],
-                ['行2列1', '行2列2', '行2列3'],
-                ['行3列1', '行3列2', '行3列3'],
-                ['行4列1', '行4列2', '行4列3'],
-                ['行5列1', '行5列2', '行5列3'],
-                ['行6列1', '行6列2', '行6列3'],
-                ['行7列1', '行7列2', '行7列3'],
-                ['行8列1', '行8列2', '行8列3'],
-                ['行9列1', '行9列2', '行9列3'],
-                ['行10列1', '行10列2', '行10列3']
-            ]
-            const config = {headerHeight:headerHeight,header:header,data:data}
-            const makeRandomData = () =>{
-                return [
-                    {
-                        value: Math.random(),
-                        name: 'A'
+
+          const data = [
+              //测试数据
+              ['year', '2013', '2014', '2015', '2016', '2017', '2018'],
+              ['CO', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
+              ['NO2', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
+              ['O3', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
+              ['PM2.5', 25.2, 37.1, 41.2, 18, 33.9, 49.1],
+              ['PM10',38.2, 45.1, 22.7, 57.7, 33.9, 11.8],
+              ['SO2', 10.2, 30.1, 22.2, 11, 8.8, 11.7]
+          ];
+          // 获取数据
+          const getData = async () =>{
+              const param = {
+                  method: 'get',
+              }
+              await getSixAverage(param).then(res=>{
+                  console.log(res)
+              })
+          };
+          const drawLine = () =>{
+            const myChart = echarts.init(document.getElementById('container'), 'dark', {
+              renderer: 'canvas',
+              useDirtyRect: false
+            });
+            var option = {
+                legend:{},
+                tooltip:{
+                  //折线图显示框，待添加
+                  trigger: 'axis',
+                },
+                dataset: {
+                  source: data
+                },
+                xAxis: { type: 'category' },
+                yAxis: { gridIndex : 0 },
+                grid: { top: '55%' },
+                series: [
+                  {
+                    type: "line",
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: { focus: 'series'}
+                  },
+                  {
+                    type: "line",
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: { focus: 'series'}
+                  },
+                  {
+                    type: "line",
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: { focus: 'series'}
+                  },
+                  {
+                    type: "line",
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: { focus: 'series'}
+                  },
+                  {
+                    type: "line",
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: { focus: 'series'}
+                  },
+                  {
+                    type: "line",
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: { focus: 'series'}
+                  },
+                  {
+                    type: 'pie',
+                    id: 'pie',
+                    radius : '40%',
+                    center: ['50%', '25%'],
+                    emphasis: {
+                      focus: 'self'
                     },
-                    {
-                        value: Math.random(),
-                        name: 'B'
+                    label: {
+                      formatter: '{b}: {@2013} ({d}%)'
                     },
-                    {
-                        value: Math.random(),
-                        name: 'C'
+                    encode: {
+                      itemName: 'year',
+                      value: '2013',
+                      tooltip: '2013'
                     }
-                ];
-            }
-            const drawPie =() =>{
-                const myChart = echarts.init(document.getElementById('pie'))
-                const option = {
-                    series: [
-                        {
-                            type: 'pie',
-                            radius: [0, '50%'],
-                            data: makeRandomData()
-                        }
-                    ]
+                  }
+                ]
+              };
+            myChart.on('updateAxisPointer', function (event) {
+                const xAxisInfo = event.axesInfo[0];
+                if(xAxisInfo){
+                  const dimension = xAxisInfo.value + 1;
+                  myChart.setOption({
+
+                    series: {
+                      id : 'pie',
+                      label: {
+                        formatter: '{b}: {@[' + dimension +']} ({d}%)'
+                      },
+                      encode: {
+                        value: dimension,
+                        tooltip: dimension
+                      }
+                    }
+                  })
                 }
-                myChart.setOption(option);
+              });
+
+            if (option && typeof option === 'object') {
+              myChart.setOption(option);
             }
-            onMounted(()=>{
-                drawPie();
-            })
-            return{
-                config
-            }
+            window.addEventListener('resize', myChart.resize());
+          }
+          onMounted(() =>{
+            drawLine()
+          })
         }
     }
+
+
 </script>
 
 <style lang="scss" scoped>

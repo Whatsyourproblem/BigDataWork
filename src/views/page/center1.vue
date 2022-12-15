@@ -16,10 +16,22 @@
 <script>
 import {onMounted, ref} from 'vue'
 import * as echarts from 'echarts'
+import {getSomeAvageCount} from "@/api";
 
 export default {
   name: "center1",
   setup() {
+
+    // 获取数据
+    const getData= async () =>{
+      const param = {
+        method: 'get',
+      };
+      await getSomeAvageCount(param).then(res =>{
+        console.log(res)
+      })
+    };
+
     const drawLine = () => {
       const myChart = echarts.init(document.getElementById('line'))
       const option = {
@@ -167,8 +179,9 @@ export default {
 
       }
       myChart.setOption(option);
-    }
+    };
     onMounted(() => {
+      getData();
       drawLine()
     })
   }

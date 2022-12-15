@@ -16,10 +16,24 @@
 <script>
 import {onMounted, ref} from 'vue'
 import * as echarts from 'echarts'
+import {getAqiByAsc} from "@/api";
 
 export default {
   name: "center2",
   setup() {
+
+
+     // 获取数据
+     const getData = async () =>{
+         const param = {
+             method: 'get'
+         };
+         await getAqiByAsc(param).then(res=>{
+             console.log(res)
+         })
+     };
+
+
     const drawSpot = () => {
       const myChart = echarts.init(document.getElementById('spot'))
       /* const option = {
@@ -218,7 +232,6 @@ export default {
         }
         return obj;
       }
-
 
       // prettier-ignore
       dataMap.dataAQI = dataFormatterAQI({
@@ -915,7 +928,8 @@ export default {
 
     }
     onMounted(() => {
-      drawSpot()
+        getData();
+        drawSpot();
     })
   }
 }
