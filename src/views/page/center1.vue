@@ -22,18 +22,38 @@ export default {
   name: "center1",
   setup() {
 
+    const aqiArr = [];
+    const tempArr = [];
+    const psfcArr = [];
+    const rhArr = [];
+
     // 获取数据
     const getData= async () =>{
       const param = {
         method: 'get',
       };
       await getSomeAvageCount(param).then(res =>{
-        console.log(res)
+        const s = res.data.data;
+        for(let i = 0;i < s.aqi.length;i++){
+          // 为了让数据更直观，这里做了一些调节
+          aqiArr.push(s.aqi[i]);
+          // 气压单位用 巴
+          psfcArr.push(s.psfc[i]/100-500);
+          rhArr.push(s.rh[i]);
+          tempArr.push(s.temp[i]);
+        }
+
       })
     };
 
-    const drawLine = () => {
-      const myChart = echarts.init(document.getElementById('line'))
+    const drawLine = async () => {
+      const myChart = echarts.init(document.getElementById('line'));
+      // 深拷贝
+      const data_aqi = JSON.parse(JSON.stringify(aqiArr));
+      const data_psfc = JSON.parse(JSON.stringify(psfcArr));
+      const data_rh = JSON.parse(JSON.stringify(rhArr));
+      const data_temp = JSON.parse(JSON.stringify(tempArr));
+      console.log(data_aqi)
       const option = {
         //测试数据
         /*xAxis: {
@@ -99,8 +119,8 @@ export default {
             type: 'value',
             name: '值',
             min: 0,
-            max: 250,
-            interval: 50,
+            max: 1000,
+            interval: 100,
             axisLabel: {
               formatter: '{value}',
               color: "rgba(255, 255, 255, 1)"
@@ -113,8 +133,8 @@ export default {
             type: 'value',
             name: 'AQI',
             min: 0,
-            max: 25,
-            interval: 5,
+            max: 100,
+            interval: 20,
             axisLabel: {
               formatter: '{value}',
               color: "rgba(255, 255, 255, 1)"
@@ -133,21 +153,17 @@ export default {
                 return value + ' °C';
               }
             },
-            data: [
-              2.0, 4.9, 7.0, 23.2, 25.6, 76.7
-            ]
+            data: data_temp
           },
           {
             name: '地面气压',
             type: 'bar',
             tooltip: {
               valueFormatter: function (value) {
-                return value + ' KPa';
+                return value + ' bar';
               }
             },
-            data: [
-              2.6, 5.9, 9.0, 26.4, 28.7, 70.7
-            ]
+            data: data_psfc
           },
           {
             name: '平均湿度',
@@ -157,9 +173,7 @@ export default {
                 return value + ' %';
               }
             },
-            data: [
-              2.0, 4.9, 7.0, 23.2, 25.6, 76.7
-            ]
+            data: data_rh
           },
           {
             name: 'AQI',
@@ -170,7 +184,7 @@ export default {
                 return value;
               }
             },
-            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2]
+            data: data_aqi
           }
         ],
         grid:{
@@ -180,9 +194,9 @@ export default {
       }
       myChart.setOption(option);
     };
-    onMounted(() => {
-      getData();
-      drawLine()
+    onMounted(async () => {
+      await getData();
+      await drawLine()
     })
   }
 }

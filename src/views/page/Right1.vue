@@ -19,7 +19,13 @@
         name: "Right1",
         components: {},
         setup() {
-
+          const dataList = [];
+          const co = [];
+          const no2 = [];
+          const o3 = [];
+          const pm2 = [];
+          const pm10 = [];
+          const so2 = [];
           const data = [
               //测试数据
               ['year', '2013', '2014', '2015', '2016', '2017', '2018'],
@@ -34,9 +40,51 @@
           const getData = async () =>{
               const param = {
                   method: 'get',
-              }
+              };
               await getSixAverage(param).then(res=>{
-                  console.log(res)
+                  const s = res.data.data;
+                  console.log(s)
+                  const header = ['year', '2013', '2014', '2015', '2016', '2017', '2018'];
+                  dataList.push(header);
+                  co.push('CO');
+                  no2.push('NO2');
+                  o3.push('O3');
+                  pm2.push('PM2.5');
+                  pm10.push('PM10');
+                  so2.push('SO2');
+                  for (let i = 0;i < s.length;i++){
+                    for (let j = 0;j < s[i].length;j++){
+                        // 判断i属于哪一个
+                        switch (i) {
+                            case 0:
+                                pm2.push(s[i][j]);
+                                break;
+                            case 1:
+                                pm10.push(s[i][j]);
+                                break;
+                            case 2:
+                                so2.push(s[i][j]);
+                                break;
+                            case 3:
+                                no2.push(s[i][j]);
+                                break;
+                            case 4:
+                                co.push(s[i][j]);
+                                break;
+                            case 5:
+                                o3.push(s[i][j]);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                  }
+                  dataList.push(co);
+                  dataList.push(no2);
+                  dataList.push(o3);
+                  dataList.push(pm2);
+                  dataList.push(pm10);
+                  dataList.push(so2);
               })
           };
           const drawLine = () =>{
@@ -44,6 +92,7 @@
               renderer: 'canvas',
               useDirtyRect: false
             });
+            console.log(dataList);
             var option = {
                 legend:{},
                 tooltip:{
@@ -51,7 +100,7 @@
                   trigger: 'axis',
                 },
                 dataset: {
-                  source: data
+                  source: dataList
                 },
                 xAxis: { type: 'category' },
                 yAxis: { gridIndex : 0 },
@@ -137,8 +186,9 @@
             }
             window.addEventListener('resize', myChart.resize());
           }
-          onMounted(() =>{
-            drawLine()
+          onMounted(async () =>{
+            await getData();
+            await drawLine()
           })
         }
     }

@@ -1,6 +1,9 @@
 import instance from "./axios";
 instance.defaults.baseURL = "/api";
 
+
+
+
 // 获取所有省市的污染物数据
 export const getProvinceInfo = (options: any) => {
     return instance({
@@ -9,12 +12,20 @@ export const getProvinceInfo = (options: any) => {
     })
 };
 
+// 获取所有省市的污染物数据
+export const getInfoByYear = (options: any) => {
+    return instance({
+        url: "/pollution/get_info_by_year/" + options.data,
+        method: options.method,
+    })
+};
+
+
 // 根据省份获取市级别的数据
 export const getCityInfoByProvince = (options: any) =>{
     return instance({
-        url: "/pollution/get_city_by_province",
+        url: "/pollution/get_city_by_province/" + options.year + "/" + options.name,
         method: options.method,
-        data: options.data
     })
 };
 
@@ -29,7 +40,7 @@ export const getSomeAvageCount = (options: any) =>{
 // 获取近六年前10名AQI,其他数据按照aqi数据升序
 export const getAqiByAsc = (options:any) =>{
   return instance({
-      url: "/pollution/get_aqi_asc",
+      url: "/pollution/get_ten_aqi_asc",
       method: options.method,
   })
 };
@@ -44,6 +55,6 @@ export const getSixAverage = (options:any) =>{
 
 
 export default {
-    getProvinceInfo,getCityInfoByProvince,getSomeAvageCount,getAqiByAsc,getSixAverage
+    getProvinceInfo,getCityInfoByProvince,getSomeAvageCount,getAqiByAsc,getSixAverage,getInfoByYear
 };
 
