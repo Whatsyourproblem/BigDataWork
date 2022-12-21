@@ -45,7 +45,7 @@ export default {
           // 为了让数据更直观，这里做了一些调节
           aqiArr.push(s.aqi[i]);
           // 气压单位用 巴
-          psfcArr.push(s.psfc[i]/100-500);
+          psfcArr.push((s.psfc[i]/100-500).toFixed(2));
           rhArr.push(s.rh[i]);
           tempArr.push(s.temp[i]);
         }
@@ -135,7 +135,7 @@ export default {
             type: 'bar',
             tooltip: {
               valueFormatter: function (value) {
-                return value + ' °C';
+                return value + ' °K';
               }
             },
             data: province_temp
@@ -327,7 +327,7 @@ export default {
           // 为了让数据更直观，这里做了一些调节
           province_aqi.push(s.aqi[i]);
           // 气压单位用 巴
-          province_psfc.push(s.psfc[i]/100-500);
+          psfcArr.push((s.psfc[i]/100-500).toFixed(2));
           province_rh.push(s.rh[i]);
           province_temp.push(s.temp[i]);
         }
