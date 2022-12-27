@@ -13,7 +13,7 @@
             <button class="bubbly-button" @click="returnLevel">
                 <span style="font-size: 20px">返回上一级</span>
             </button>
-            <button style="margin-left: 8%" class="bubbly-button1" @click="getInfoByYear2013">
+            <button style="margin-left: 8%" class="bubbly-button1" @click="getInfoByYear2013()">
                 <span style="font-size: 20px">2013</span>
             </button>
             <button class="bubbly-button1" @click="getInfoByYear2014">
@@ -131,6 +131,7 @@ export default {
                   dataResult.push(m)
               }
           });
+
       };
 
       const getInfoByYear2015 = () =>{
@@ -1199,6 +1200,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -1291,4 +1293,5 @@ $box-height: 900px;
     transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
     box-shadow: 0 2px 25px rgba(14, 19, 37);
 }
+
 </style>

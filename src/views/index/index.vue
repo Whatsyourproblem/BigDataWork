@@ -38,7 +38,7 @@
           </div>
           <div class="d-flex aside-width">
             <div class="react-right bg-color-blue mr-3">
-              <span class="text fw-b">梁鑫 许文杰 吴家俊  赵睿睿</span>
+              <span class="text fw-b">梁鑫 许文杰 赵睿睿 吴家俊</span>
             </div>
             <div class="react-right mr-4 react-l-s">
               <span class="react-after"></span>
